@@ -48,4 +48,4 @@ if __name__ == '__main__':
     print (png_root)
     print (output_dir)
     print (max_size)
-    merge_tiles_size(png_root, output_dir + '/merged.tif', max_size)
+    merge_tiles_size(png_root, output_dir + '/merged.tif', int(max_size))
