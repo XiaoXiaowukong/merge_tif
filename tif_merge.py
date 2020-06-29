@@ -36,7 +36,7 @@ def merge_tiles_size(tif_path, output_path, max_size):
 def process(command):
     try:
         subprocess.call(command)
-    except Exception, e:
+    except Exception as e:
         print (e.message)
 
 
