@@ -21,12 +21,12 @@ def merge_tiles_size(tif_path, output_path, max_size):
     for tif_index, tif_file in enumerate(os.listdir(tif_path)):
         if tif_index == 0:
             merge_command = ['gdal_merge.py', '-o',
-                             output_path.replace("merged.tif", "{}_merged.tif".format(tif_index / max_size))]
+                             os.path.join(output_path, "{}_merged.tif".format(tif_index / max_size))]
         else:
             if tif_index % max_size == 0:
                 process(merge_command)
                 merge_command = ['gdal_merge.py', '-o',
-                                 output_path.replace("merged.tif", "{}_merged.tif".format(tif_index / max_size))]
+                                 os.path.join(output_path, "{}_merged.tif".format(tif_index / max_size))]
             else:
                 merge_command.append(os.path.join(tif_path, tif_file))
     if merge_command is not None:
@@ -42,10 +42,10 @@ def process(command):
 
 if __name__ == '__main__':
     args = sys.argv[1:]
-    png_root = args[0]
-    output_dir = args[1]
+    tif_root = args[0]
+    merge_dir = args[1]
     max_size = args[2]
-    print (png_root)
-    print (output_dir)
-    print (max_size)
-    merge_tiles_size(png_root, output_dir + '/merged.tif', int(max_size))
+    if not os.path.exists(tif_root) or not os.path.exists(merge_dir):
+        print("dir is not exist")
+        exit(1)
+    merge_tiles_size(tif_root, merge_dir, int(max_size))
