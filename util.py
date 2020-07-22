@@ -34,12 +34,6 @@ def get_tile_bbox(z, x, y):
     return (left_bottom[0], right_top[1], right_top[0], left_bottom[1],)
 
 
-def get_tile_bbox1(z, x, y):
-    right_top = num2deg(x + 1, y, z)
-    left_bottom = num2deg(x, y + 1, z)
-    return (left_bottom[0], left_bottom[1], right_top[0], right_top[1])
-
-
 def latlon2tile(lon, lat, z):
     x = int((lon / 180 + 1) * 2 ** z / 2)  # x座標
     y = int(((-log(tan((45 + lat / 2) * pi / 180)) + pi) * 2 ** z / (2 * pi)))  # y座標
@@ -50,18 +44,8 @@ def tile2latlon(x, y, z):
     lon0 = (x / 2.0 ** z) * 360 - 180  # 経度（東経）
     mapy = (y / 2.0 ** z) * 2 * pi - pi
     lat0 = 2 * atan(e ** (- mapy)) * 180 / pi - 90  # 緯度（北緯）
-
-    # lon1 = (x / 2.0 ** z) * 360 + 180  # 経度（東経）
-    # lat1 = 2 * atan(e ** (- mapy)) * 180 / pi - 85.051128  # 緯度（北緯）
     return [lon0, lat0]
-
-
-def tile2latlon2(x, y, z):
-    lon = (x / 2.0 ** z) * 360 + 180  # 経度（東経）
-    mapy = (y / 2.0 ** z) * 2 * pi - pi
-    lat = 2 * atan(e ** (- mapy)) * 180 / pi - 85.051128  # 緯度（北緯）
-    return [lon, lat]
-    ##############google###########
+##############google###########
 
 
 def create_png(o_name):

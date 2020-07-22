@@ -19,6 +19,13 @@ def merge_tiles(input_pattern, output_path):
     subprocess.call(merge_command)
 
 
+# 将tif转为shp
+def transform_to_shp():
+    shp_command = ['gdal_polygonize.py', '/Volumes/pionner2/日本数据/new_merge/1/0_merged.tif', '-nomask', '0', '-f',
+                   'ESRI SHAPEFILE', "./123.shp"]
+    subprocess.call(shp_command)
+
+
 def tif_range(tif_path):
     min_x = 0
     max_x = 0
@@ -74,7 +81,6 @@ def merge_tiles_size(tif_path, output_path, max_size):
         for tif_i, tif_f in enumerate(os.listdir(tif_path)):
             if not os.path.splitext(tif_f)[-1] == ".tif":
                 continue
-            print (tif_f)
             [z, x, y] = os.path.splitext(tif_f)[0].split("-")
             if int(x) >= group_xy_item[0] and int(x) < group_xy_item[1] and int(y) >= group_xy_item[2] and int(y) < \
                     group_xy_item[3]:
@@ -119,6 +125,8 @@ if __name__ == '__main__':
         print("dir is not exist")
         exit(1)
     merge_tiles_size(tif_root, merge_dir, int(max_size))
+    # transform_to_shp()
+
     # all_count = file_count(tif_root)
     # level_dir = 0
     # while (all_count > 1):
